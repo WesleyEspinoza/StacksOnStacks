@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B9F26C423FB15CF0056ECCC /* ButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9F26C323FB15CF0056ECCC /* ButtonNode.swift */; };
 		2BDE59C223F498FF00A63503 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDE59C123F498FF00A63503 /* AppDelegate.swift */; };
 		2BDE59C423F498FF00A63503 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2BDE59C323F498FF00A63503 /* GameScene.sks */; };
 		2BDE59C823F498FF00A63503 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDE59C723F498FF00A63503 /* GameScene.swift */; };
@@ -15,7 +16,6 @@
 		2BDE59CF23F4990000A63503 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2BDE59CE23F4990000A63503 /* Assets.xcassets */; };
 		2BDE59D223F4990000A63503 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2BDE59D023F4990000A63503 /* LaunchScreen.storyboard */; };
 		2BDE59DD23F4990100A63503 /* StacksOnStacksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDE59DC23F4990100A63503 /* StacksOnStacksTests.swift */; };
-		2BDE59E823F7196B00A63503 /* Stackable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDE59E723F7196A00A63503 /* Stackable.swift */; };
 		2BDE59EA23F71A6B00A63503 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDE59E923F71A6B00A63503 /* Player.swift */; };
 		2BDE59EC23F7559C00A63503 /* Obstacle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDE59EB23F7559C00A63503 /* Obstacle.swift */; };
 /* End PBXBuildFile section */
@@ -31,6 +31,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2B9F26C323FB15CF0056ECCC /* ButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonNode.swift; sourceTree = "<group>"; };
 		2BDE59BE23F498FF00A63503 /* StacksOnStacks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StacksOnStacks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BDE59C123F498FF00A63503 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2BDE59C323F498FF00A63503 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -43,7 +44,6 @@
 		2BDE59D823F4990100A63503 /* StacksOnStacksTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StacksOnStacksTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BDE59DC23F4990100A63503 /* StacksOnStacksTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StacksOnStacksTests.swift; sourceTree = "<group>"; };
 		2BDE59DE23F4990100A63503 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2BDE59E723F7196A00A63503 /* Stackable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stackable.swift; sourceTree = "<group>"; };
 		2BDE59E923F71A6B00A63503 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		2BDE59EB23F7559C00A63503 /* Obstacle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Obstacle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -89,6 +89,7 @@
 			children = (
 				2BDE59C123F498FF00A63503 /* AppDelegate.swift */,
 				2BDE59C323F498FF00A63503 /* GameScene.sks */,
+				2B9F26C323FB15CF0056ECCC /* ButtonNode.swift */,
 				2BDE59EB23F7559C00A63503 /* Obstacle.swift */,
 				2BDE59C723F498FF00A63503 /* GameScene.swift */,
 				2BDE59C923F498FF00A63503 /* GameViewController.swift */,
@@ -96,7 +97,6 @@
 				2BDE59CE23F4990000A63503 /* Assets.xcassets */,
 				2BDE59D023F4990000A63503 /* LaunchScreen.storyboard */,
 				2BDE59D323F4990000A63503 /* Info.plist */,
-				2BDE59E723F7196A00A63503 /* Stackable.swift */,
 				2BDE59E923F71A6B00A63503 /* Player.swift */,
 			);
 			path = StacksOnStacks;
@@ -218,7 +218,7 @@
 				2BDE59EC23F7559C00A63503 /* Obstacle.swift in Sources */,
 				2BDE59C223F498FF00A63503 /* AppDelegate.swift in Sources */,
 				2BDE59EA23F71A6B00A63503 /* Player.swift in Sources */,
-				2BDE59E823F7196B00A63503 /* Stackable.swift in Sources */,
+				2B9F26C423FB15CF0056ECCC /* ButtonNode.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
