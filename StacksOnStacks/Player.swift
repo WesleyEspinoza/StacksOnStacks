@@ -14,14 +14,15 @@ class Player: SKSpriteNode {
     var canStack: Bool = true
     let maxStack: Int = 7
     var bodyNodes: [SKSpriteNode] = []
+    var initialPos: CGPoint!
     
     func stack(scene: SKScene){
         
         if canStack && bodyNodes.count <= maxStack{
             canStack = false
             let body = SKSpriteNode(color: .cyan, size: CGSize(width: 100, height: 100))
-            body.texture = SKTexture(imageNamed: "body")
-            body.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 100, height: 100))
+            body.texture = SKTexture(imageNamed: "egg")
+            body.physicsBody = SKPhysicsBody(texture: body.texture!, size: body.size)
             body.physicsBody?.allowsRotation = false
             body.physicsBody?.isDynamic = true
             body.physicsBody?.affectedByGravity = true
@@ -35,12 +36,12 @@ class Player: SKSpriteNode {
             
             
             let addChild = SKAction.run {
-                body.position = scene.convert(CGPoint(x: self.position.x, y: self.position.y - (self.size.height + 15)), to: scene)
+                body.position = scene.convert(CGPoint(x: self.position.x , y: self.position.y - (self.size.height + 5)), to: scene)
                 self.bodyNodes.append(body)
                 scene.addChild(body)
             }
             
-            let smallWait = SKAction.wait(forDuration: 0.025)
+            let smallWait = SKAction.wait(forDuration: 0.05)
             
             let enableStack = SKAction.run {
                 self.canStack = true
@@ -54,6 +55,7 @@ class Player: SKSpriteNode {
     }
     
     func setup(){
+        self.texture = SKTexture(imageNamed: "head")
         self.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 100, height: 100))
         self.physicsBody?.affectedByGravity = true
         self.physicsBody?.isDynamic = true
@@ -61,7 +63,6 @@ class Player: SKSpriteNode {
         self.physicsBody?.categoryBitMask = PhysicsCategory.Player
         self.physicsBody?.collisionBitMask = PhysicsCategory.Obstacle | PhysicsCategory.Ground | PhysicsCategory.PlayerBody
         self.physicsBody?.contactTestBitMask = PhysicsCategory.Obstacle
-        self.texture = SKTexture(imageNamed: "head")
         
         
     }

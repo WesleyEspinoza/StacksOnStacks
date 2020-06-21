@@ -118,12 +118,9 @@ class Obstacle: SKSpriteNode {
                             [0, 0, 1, 1, 1, 1, 0, 0, 0],
                             [0, 0, 1, 1, 1, 1, 0, 0, 0]]
     
+
     
-    
-    
-    
-    
-    func generate(scene: SKScene){
+     func generate(scene: SKScene){
         let schemes = [test, testTwo, testThree, testFour, testFive, testSix, testSeven, testEight, testNine, testTen]
         if timePerCent == nil {
             timePerCent = 0
@@ -132,7 +129,7 @@ class Obstacle: SKSpriteNode {
             let child = self.children[0] as! SKSpriteNode
             let intialPos = self.children[0].position.x
             while child.position.x <= intialPos + child.size.width / 2 {
-                child.position.x += 1.9
+                child.position.x += 1.75
                 timePerCent! += fixedDelta
             }
             child.position.x = intialPos
@@ -155,23 +152,16 @@ class Obstacle: SKSpriteNode {
                 }
                 let child = copy.childNode(withName: "spawnBlock-\(row)") as! SKSpriteNode
                 if currentScheme[row][pointer] != 1 {
-                    child.texture = nil
-                    child.color = UIColor.clear
-                    child.zPosition = -1
-                    child.physicsBody?.affectedByGravity = false
-                    child.physicsBody?.allowsRotation = false
-                    child.physicsBody?.isDynamic = false
-                    child.physicsBody?.density = 0
                     child.physicsBody?.categoryBitMask = PhysicsCategory.Invisible
                     child.physicsBody?.collisionBitMask = PhysicsCategory.None
-                    child.position = scene.convert(child.position, to: scene)
-                    child.position.x = child.position.x + 800
-                    column.append(child.copy() as! SKSpriteNode)
+
                 } else {
                     child.physicsBody?.affectedByGravity = false
                     child.physicsBody?.allowsRotation = false
                     child.physicsBody?.isDynamic = false
                     child.physicsBody?.density = 0
+                    child.color = UIColor.random
+                    child.colorBlendFactor = 0.5
                     child.position = scene.convert(child.position, to: scene)
                     child.position.x = child.position.x + 800
                     child.physicsBody?.categoryBitMask = PhysicsCategory.Obstacle
@@ -188,8 +178,11 @@ class Obstacle: SKSpriteNode {
             let repeater = SKAction.repeatForever(move)
             
             for copiedChild in column {
-                scene.addChild(copiedChild)
-                copiedChild.run(repeater)
+                if copiedChild.physicsBody?.categoryBitMask != PhysicsCategory.Invisible {
+                    scene.addChild(copiedChild)
+                    copiedChild.run(repeater)
+                }
+
             }
             column = []
             
@@ -199,4 +192,12 @@ class Obstacle: SKSpriteNode {
         
     }
     
+}
+extension UIColor {
+    static var random: UIColor {
+        return UIColor(red: .random(in: 0...1),
+                       green: .random(in: 0...1),
+                       blue: .random(in: 0...1),
+                       alpha: 1.0)
+    }
 }

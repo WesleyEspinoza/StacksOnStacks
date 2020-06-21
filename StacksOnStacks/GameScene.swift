@@ -63,12 +63,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         playButton.selectedHandler = {
             self.gameState = .active
             self.playButton.isHidden = true
-            self.obstacleSpawner.generate(scene: self.scene!)
+            let timer = Timer.scheduledTimer(timeInterval: self.fixedDelta, target: self, selector: #selector(self.startGenerator), userInfo: nil, repeats: true)
+            
         }
         
         physicsWorld.contactDelegate = self
         
         
+    }
+    
+    @objc func startGenerator(){
+        self.obstacleSpawner.generate(scene: self.scene!)
+        print("Timer Fires")
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -87,7 +93,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     
-    func scrollWorld(offset: CGFloat) {
+    func scrollWorld() {
         /* Scroll World */
         scrollLayer.position.x -= scrollSpeed * CGFloat(fixedDelta)
         /* Loop through scroll layer nodes */
@@ -100,7 +106,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if groundPosition.x <= -ground.size.width / 2 {
                 
                 /* Reposition ground sprite to the second starting position */
-                let newPosition = CGPoint(x: (self.size.width / 2) + (ground.size.width * offset), y: groundPosition.y)
+                let newPosition = CGPoint(x: (self.size.width / 2) + ground.size.width, y: groundPosition.y)
                 
                 /* Convert new node position back to scroll layer space */
                 ground.position = self.convert(newPosition, to: scrollLayer)
@@ -117,14 +123,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let bodyB = contact.bodyB
         
         if bodyA.categoryBitMask == PhysicsCategory.Barrier {
-            print(bodyA.categoryBitMask)
             if bodyB.categoryBitMask == PhysicsCategory.Obstacle || bodyB.categoryBitMask == PhysicsCategory.PlayerBody || bodyB.categoryBitMask == PhysicsCategory.Invisible{
                 bodyB.node?.removeFromParent()
             }
             
         }
         if bodyB.categoryBitMask == PhysicsCategory.Barrier {
-            print(bodyA.categoryBitMask)
             if bodyA.categoryBitMask == PhysicsCategory.Obstacle || bodyA.categoryBitMask == PhysicsCategory.PlayerBody || bodyA.categoryBitMask == PhysicsCategory.Invisible{
                 bodyA.node?.removeFromParent()
             }
@@ -149,17 +153,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     
                 }
             }
-            
-            
-            
-            
         }
     }
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
-        scrollWorld(offset: groundOffset)
+        scrollWorld()
         if gameState == .active {
-            obstacleSpawner.generate(scene: self.scene!)
             checkBody()
         }
         
