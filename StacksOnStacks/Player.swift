@@ -22,13 +22,13 @@ class Player: SKSpriteNode {
             canStack = false
             let body = SKSpriteNode(color: .cyan, size: CGSize(width: 100, height: 100))
             body.texture = SKTexture(imageNamed: "egg")
-            body.physicsBody = SKPhysicsBody(texture: body.texture!, size: body.size)
+            body.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 100, height: 100))
             body.physicsBody?.allowsRotation = false
             body.physicsBody?.isDynamic = true
             body.physicsBody?.affectedByGravity = true
             body.physicsBody?.categoryBitMask = PhysicsCategory.PlayerBody
             body.physicsBody?.contactTestBitMask = PhysicsCategory.Obstacle
-            body.physicsBody?.collisionBitMask = PhysicsCategory.Ground | PhysicsCategory.Obstacle | PhysicsCategory.PlayerBody
+            body.physicsBody?.collisionBitMask =  PhysicsCategory.Obstacle | PhysicsCategory.PlayerBody
             
             
             

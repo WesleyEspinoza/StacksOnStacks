@@ -6,7 +6,6 @@
 //  Copyright © 2020 Erick Espinoza. All rights reserved.
 //
 
-import Foundation
 import SpriteKit
 
 enum ButtonNodeState {

@@ -18,6 +18,7 @@
 		2BDE59DD23F4990100A63503 /* StacksOnStacksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDE59DC23F4990100A63503 /* StacksOnStacksTests.swift */; };
 		2BDE59EA23F71A6B00A63503 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDE59E923F71A6B00A63503 /* Player.swift */; };
 		2BDE59EC23F7559C00A63503 /* Obstacle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDE59EB23F7559C00A63503 /* Obstacle.swift */; };
+		6106D70724A1448F008D0D99 /* Schemes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6106D70624A1448F008D0D99 /* Schemes.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +47,7 @@
 		2BDE59DE23F4990100A63503 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2BDE59E923F71A6B00A63503 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		2BDE59EB23F7559C00A63503 /* Obstacle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Obstacle.swift; sourceTree = "<group>"; };
+		6106D70624A1448F008D0D99 /* Schemes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schemes.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +93,7 @@
 				2BDE59C323F498FF00A63503 /* GameScene.sks */,
 				2B9F26C323FB15CF0056ECCC /* ButtonNode.swift */,
 				2BDE59EB23F7559C00A63503 /* Obstacle.swift */,
+				6106D70624A1448F008D0D99 /* Schemes.swift */,
 				2BDE59C723F498FF00A63503 /* GameScene.swift */,
 				2BDE59C923F498FF00A63503 /* GameViewController.swift */,
 				2BDE59CB23F498FF00A63503 /* Main.storyboard */,
@@ -213,6 +216,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6106D70724A1448F008D0D99 /* Schemes.swift in Sources */,
 				2BDE59C823F498FF00A63503 /* GameScene.swift in Sources */,
 				2BDE59CA23F498FF00A63503 /* GameViewController.swift in Sources */,
 				2BDE59EC23F7559C00A63503 /* Obstacle.swift in Sources */,

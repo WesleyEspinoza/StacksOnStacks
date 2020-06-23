@@ -29,7 +29,7 @@ enum GameState: Equatable {
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
-    var gameState = GameState.Menu
+    var gameState: GameState = .Menu
     
     
     let fixedDelta: CFTimeInterval = 1.0 / 60.0 /* 60 FPS */
