@@ -13,6 +13,7 @@ class Obstacle: SKSpriteNode {
     var spawnTimer: CFTimeInterval = 0
     let fixedDelta: CFTimeInterval = 1.0 / 60.0 /* 60 FPS */
     var timePerCent: CFTimeInterval?
+    let scrollSpeed = 0.3
     var pointer = 0
     var currentScheme: [[Int]] = []
     let schemes: Schemes = Schemes()
@@ -20,25 +21,32 @@ class Obstacle: SKSpriteNode {
     func initSpaceTime(){
         if timePerCent == nil {
             timePerCent = 0
-            currentScheme = schemes.getRandomScheme()
-
-            
             let child = self.children[0] as! SKSpriteNode
-            let intialPos = self.children[0].position.x
-            while child.position.x <= intialPos + child.size.width / 2 {
-                child.position.x += 1.75
-                timePerCent! += fixedDelta
-            }
-            child.position.x = intialPos
+            let initialPos = self.children[0].position.x
+            let move = SKAction.move(by: CGVector(dx: 100, dy: 0), duration: scrollSpeed)
+            child.run(move)
+            let _ = Timer.scheduledTimer(timeInterval: fixedDelta, target: self, selector: #selector(timerCheck(_:)), userInfo: ["child":child, "pos":initialPos], repeats: true)
+            currentScheme = schemes.getRandomScheme()
+        }
+    }
+    
+    @objc func timerCheck(_ timer: Timer){
+        let info = timer.userInfo as! [String: Any]
+        let child = info["child"] as! SKSpriteNode
+        let initialPos = info["pos"] as! CGFloat
+        if child.position.x <= initialPos + (child.size.width * 0.90) {
+            timePerCent! += fixedDelta
+        } else {
+            timer.invalidate()
+            child.removeAllActions()
+            child.position.x = initialPos
             
         }
     }
 
     
      func generate(scene: SKScene){
-        
         initSpaceTime()
-        
         spawnTimer += fixedDelta
         if spawnTimer > Double(timePerCent!) {
             let copy = self.copy() as! SKSpriteNode
@@ -64,7 +72,7 @@ class Obstacle: SKSpriteNode {
                     child.color = UIColor.random
                     child.colorBlendFactor = 0.5
                     child.position = scene.convert(child.position, to: scene)
-                    child.position.x = child.position.x + 800
+                    child.position.x = child.position.x + UIScreen.main.bounds.width * 1.5
                     child.physicsBody?.categoryBitMask = PhysicsCategory.Obstacle
                     child.physicsBody?.collisionBitMask = PhysicsCategory.Player | PhysicsCategory.Ground | PhysicsCategory.Obstacle
                     column.append(child.copy() as! SKSpriteNode)
@@ -75,7 +83,7 @@ class Obstacle: SKSpriteNode {
             copy.removeAllChildren()
             copy.removeFromParent()
             
-            let move = SKAction.moveBy(x: -100, y: 0, duration: 0.5)
+            let move = SKAction.moveBy(x: -100, y: 0, duration: scrollSpeed)
             let repeater = SKAction.repeatForever(move)
             
             for copiedChild in column {

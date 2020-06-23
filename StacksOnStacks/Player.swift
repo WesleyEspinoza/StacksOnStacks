@@ -32,7 +32,7 @@ class Player: SKSpriteNode {
             
             
             
-            let jump = SKAction.moveTo(y: self.position.y + self.size.height + 10, duration: 0.2)
+            let jump = SKAction.moveTo(y: self.position.y + self.size.height + 10, duration: 0.1)
             
             
             let addChild = SKAction.run {
@@ -41,7 +41,7 @@ class Player: SKSpriteNode {
                 scene.addChild(body)
             }
             
-            let smallWait = SKAction.wait(forDuration: 0.05)
+            let smallWait = SKAction.wait(forDuration: 0.03)
             
             let enableStack = SKAction.run {
                 self.canStack = true

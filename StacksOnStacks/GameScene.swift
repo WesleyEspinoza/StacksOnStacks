@@ -74,7 +74,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     @objc func startGenerator(){
         self.obstacleSpawner.generate(scene: self.scene!)
-        print("Timer Fires")
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
