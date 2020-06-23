@@ -16,9 +16,8 @@ class Obstacle: SKSpriteNode {
     var pointer = 0
     var currentScheme: [[Int]] = []
     let schemes: Schemes = Schemes()
-
     
-     func generate(scene: SKScene){
+    func initSpaceTime(){
         if timePerCent == nil {
             timePerCent = 0
             currentScheme = schemes.getRandomScheme()
@@ -33,8 +32,12 @@ class Obstacle: SKSpriteNode {
             child.position.x = intialPos
             
         }
+    }
+
+    
+     func generate(scene: SKScene){
         
-        
+        initSpaceTime()
         
         spawnTimer += fixedDelta
         if spawnTimer > Double(timePerCent!) {
