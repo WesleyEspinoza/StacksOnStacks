@@ -77,7 +77,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        player.stack(scene: scene!)
+        let nodeCheck = physicsWorld.body(alongRayStart: player.position, end: CGPoint(x: player.position.x, y: player.position.y + 100))
+        if nodeCheck == nil || nodeCheck?.node?.name == "mainScene" {
+            player.stack(scene: scene!)
+        }
     }
     
     

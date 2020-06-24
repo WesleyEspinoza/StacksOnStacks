@@ -88,6 +88,7 @@ class Obstacle: SKSpriteNode {
             }
             column = []
             
+            
             spawnTimer = 0
             pointer += 1
         }
