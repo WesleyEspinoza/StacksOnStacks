@@ -50,12 +50,11 @@ class Obstacle: SKSpriteNode {
         spawnTimer += fixedDelta
         if spawnTimer > Double(timePerCent!) {
             let copy = self.copy() as! SKSpriteNode
-            copy.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 100, height: 100))
             
             var column: [SKSpriteNode] = []
             
             for row in 0...currentScheme.count - 1 {
-                if pointer > 8 {
+                if pointer > currentScheme[row].count - 1 {
                     pointer = 0
                     currentScheme = schemes.getRandomScheme()
                 }
