@@ -20,16 +20,36 @@ struct PhysicsCategory {
 }
 
 enum GameState: Equatable {
-    case Paused
-    case active
-    case GameOver
+    case Active
     case Menu
     
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
-    var gameState: GameState = .Menu
+    var gameState: GameState = .Menu {
+        didSet{
+            switch gameState {
+            case .Active:
+                for node in player.bodyNodes {
+                    node.removeFromParent()
+                }
+                player.removeAllActions()
+                self.player.position.x = self.player.initialPos.x
+                self.player.zRotation = 0
+                self.playButton.isHidden = true
+                self.obstacleTimer = Timer.scheduledTimer(timeInterval: self.fixedDelta, target: self, selector: #selector(self.startGenerator), userInfo: nil, repeats: true)
+            case .Menu:
+                self.playButton.isHidden = false
+                self.obstacleTimer.invalidate()
+                for node in self.children {
+                    if node.physicsBody?.categoryBitMask == PhysicsCategory.Obstacle {
+                        node.removeFromParent()
+                    }
+                }
+            }
+        }
+    }
     
     
     let fixedDelta: CFTimeInterval = 1.0 / 60.0 /* 60 FPS */
@@ -40,6 +60,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var obstacleSpawner: Obstacle!
     var playButton: ButtonNode!
     var frontBarrier: SKSpriteNode!
+    var obstacleTimer: Timer!
     
     
     
@@ -48,23 +69,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player = self.childNode(withName: "player") as? Player
         player.setup()
         obstacleSpawner = self.childNode(withName: "obstacleSpawner") as? Obstacle
-        playButton = self.childNode(withName: "playButton") as? ButtonNode
+        if let playButton = self.childNode(withName: "playButton") as? ButtonNode {
+            self.playButton = playButton
+        } else {
+            print("not ")
+        }
         frontBarrier = self.childNode(withName: "frontBarrier") as? SKSpriteNode
-        frontBarrier.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: frontBarrier.size.width, height: frontBarrier.size.height))
-        frontBarrier.physicsBody?.isDynamic = true
-        frontBarrier.physicsBody?.allowsRotation = false
-        frontBarrier.physicsBody?.affectedByGravity = false
+
         frontBarrier.physicsBody?.categoryBitMask = PhysicsCategory.Barrier
         frontBarrier.physicsBody?.collisionBitMask = PhysicsCategory.None
-        frontBarrier.physicsBody?.contactTestBitMask = PhysicsCategory.Obstacle | PhysicsCategory.PlayerBody | PhysicsCategory.Invisible
+        frontBarrier.physicsBody?.contactTestBitMask = PhysicsCategory.Obstacle
         
         scrollLayer = self.childNode(withName: "scrollLayer")
         
         playButton.selectedHandler = {
-            self.gameState = .active
-            self.playButton.isHidden = true
-            let timer = Timer.scheduledTimer(timeInterval: self.fixedDelta, target: self, selector: #selector(self.startGenerator), userInfo: nil, repeats: true)
-            
+            self.gameState = .Active
         }
         
         physicsWorld.contactDelegate = self
@@ -78,18 +97,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let nodeCheck = physicsWorld.body(alongRayStart: player.position, end: CGPoint(x: player.position.x, y: player.position.y + 100))
-        if nodeCheck == nil || nodeCheck?.node?.name == "mainScene" {
+        if nodeCheck?.node == nil{
             player.stack(scene: scene!)
         }
-    }
-    
-    
-    
-    override func didMove(to view: SKView) {
-        super.didMove(to: view)
-        
-        
-        
     }
     
     
@@ -124,14 +134,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let bodyA = contact.bodyA
         let bodyB = contact.bodyB
         
+        print("BodyA = \(bodyA.node?.name) : BodyB = \(bodyB.node?.name)" )
+        
         if bodyA.categoryBitMask == PhysicsCategory.Barrier {
-            if bodyB.categoryBitMask == PhysicsCategory.Obstacle || bodyB.categoryBitMask == PhysicsCategory.PlayerBody || bodyB.categoryBitMask == PhysicsCategory.Invisible{
+            if bodyB.categoryBitMask == PhysicsCategory.Obstacle {
                 bodyB.node?.removeFromParent()
             }
             
         }
-        if bodyB.categoryBitMask == PhysicsCategory.Barrier {
-            if bodyA.categoryBitMask == PhysicsCategory.Obstacle || bodyA.categoryBitMask == PhysicsCategory.PlayerBody || bodyA.categoryBitMask == PhysicsCategory.Invisible{
+    if bodyB.categoryBitMask == PhysicsCategory.Barrier {
+        if bodyA.categoryBitMask == PhysicsCategory.Obstacle {
                 bodyA.node?.removeFromParent()
             }
             
@@ -147,23 +159,36 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             for sprite in player.bodyNodes {
                 if sprite.position.x < player.position.x - 5 {
                     player.bodyNodes = player.bodyNodes.filter {return $0 != sprite }
-                    let rotate = SKAction.rotate(byAngle: 180, duration: 1.8)
-                    let pushBack = SKAction.moveTo(x: sprite.position.x - 400, duration: 0.5)
-                    let seq = SKAction.group([pushBack, rotate])
-                    
+                    let rotate = SKAction.rotate(byAngle: 25, duration: 1)
+                    let pushBack = SKAction.moveTo(x: sprite.position.x - 400, duration: 0.7)
+                    let remove = SKAction.run {
+                        sprite.removeFromParent()
+                    }
+                    let group = SKAction.group([pushBack, rotate])
+                    let seq = SKAction.sequence([group, remove])
                     sprite.run(SKAction.repeatForever(seq))
-                    
                 }
             }
+        }
+    }
+    
+    func checkPlayer() {
+        if player.position.x < player.initialPos.x - 10{
+            let rotate = SKAction.rotate(byAngle: 15, duration: 2.5)
+            let pushBack = SKAction.moveTo(x: player.position.x - 400, duration: 2)
+            let seq = SKAction.group([pushBack, rotate])
+            player.run(seq)
+            gameState = .Menu
+        } else {
+            self.player.position.x = self.player.initialPos.x
         }
     }
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
         scrollWorld()
-        if gameState == .active {
+        if gameState == .Active {
             checkBody()
+            checkPlayer()
         }
-        
-        
     }
 }

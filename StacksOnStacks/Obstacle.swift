@@ -59,8 +59,6 @@ class Obstacle: SKSpriteNode {
                     currentScheme = schemes.getRandomScheme()
                 }
                 let child = copy.childNode(withName: "spawnBlock-\(row)") as! SKSpriteNode
-                child.physicsBody?.categoryBitMask = PhysicsCategory.Invisible
-                child.physicsBody?.collisionBitMask = PhysicsCategory.None
                 if currentScheme[row][pointer] == 1 {
                     child.color = UIColor.random
                     child.colorBlendFactor = 0.7
@@ -69,8 +67,11 @@ class Obstacle: SKSpriteNode {
                     child.position.x = scenePos.x + child.size.width
                     child.physicsBody?.categoryBitMask = PhysicsCategory.Obstacle
                     child.physicsBody?.collisionBitMask = PhysicsCategory.Player | PhysicsCategory.Ground | PhysicsCategory.Obstacle
+                    child.physicsBody?.contactTestBitMask = PhysicsCategory.Barrier
                     column.append(child.copy() as! SKSpriteNode)
 
+                } else {
+                    child.removeFromParent()
                 }
             }
             copy.removeAllChildren()

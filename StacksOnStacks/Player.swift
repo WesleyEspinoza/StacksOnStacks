@@ -63,7 +63,7 @@ class Player: SKSpriteNode {
         self.physicsBody?.categoryBitMask = PhysicsCategory.Player
         self.physicsBody?.collisionBitMask = PhysicsCategory.Obstacle | PhysicsCategory.Ground | PhysicsCategory.PlayerBody
         self.physicsBody?.contactTestBitMask = PhysicsCategory.Obstacle
-        
+        self.initialPos = self.position
         
     }
 }
